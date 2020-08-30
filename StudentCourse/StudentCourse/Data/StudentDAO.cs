@@ -75,18 +75,30 @@ namespace StudentCourse.Data
             
         }
 
-        public int Create(StudentModel newStudent)
+        public int CreateOrUpdate(StudentModel newStudent)
         {
 
-            StudentModel student = new StudentModel();
+
+
+            //StudentModel student = new StudentModel();
             //access database
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
-                string sqlQuery = "INSERT INTO dbo.Students Values(@FirstName, @LastName)";
+                string sqlQuery = "";
+
+                if (newStudent.ID <= 0)
+                {
+                    sqlQuery = "INSERT INTO dbo.Students Values(@FirstName, @LastName)";
+                }
+                else
+                {
+                    sqlQuery = "UPDATE dbo.Students SET FirstName = @FirstName, LastName = @LastName WHERE Id = @Id";
+                }
 
                 SqlCommand command = new SqlCommand(sqlQuery, connection);
 
+                command.Parameters.Add("@Id", System.Data.SqlDbType.VarChar, 1000).Value = newStudent.ID;
                 command.Parameters.Add("@FirstName", System.Data.SqlDbType.VarChar, 1000).Value = newStudent.FirstName;
                 command.Parameters.Add("@LastName", System.Data.SqlDbType.VarChar, 1000).Value = newStudent.LastName;
 
@@ -94,6 +106,23 @@ namespace StudentCourse.Data
                 int newID = command.ExecuteNonQuery();
                 return newID;
             }
+        }
+
+        public void Delete(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                string sqlQuery = "DELETE FROM dbo.Students WHERE Id = @Id ";
+               
+                SqlCommand command = new SqlCommand(sqlQuery, connection);
+
+                command.Parameters.Add("@Id", System.Data.SqlDbType.VarChar, 1000).Value = id;
+                connection.Open();
+                int newID = command.ExecuteNonQuery();
+                
+            }
+
         }
     }
 }

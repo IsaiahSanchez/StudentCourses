@@ -8,10 +8,10 @@
 <h2>StudentCreateForm</h2>
 
 
-@using (Html.BeginForm("ProcessCreate","Students")) 
+@using (Html.BeginForm("ProcessCreate", "Students"))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>StudentModel</h4>
         <hr />
@@ -34,10 +34,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
+
+    <input type="hidden" name="Id" value="@Model.ID" />
 }
 
 <div>

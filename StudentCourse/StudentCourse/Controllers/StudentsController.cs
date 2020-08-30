@@ -31,16 +31,34 @@ namespace StudentCourse.Controllers
 
         public ActionResult Create()
         {
-            return View("StudentCreateForm");
+            StudentModel newStudent = new StudentModel(-1,"","");
+
+            return View("StudentCreateForm", newStudent);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            StudentDAO studentDAO = new StudentDAO();
+            StudentModel student = studentDAO.FetchOne(id);
+
+            return View("StudentCreateForm", student);
         }
 
         public ActionResult ProcessCreate(StudentModel student)
         {
             StudentDAO studentDao = new StudentDAO();
 
-            int id = studentDao.Create(student);
+            int id = studentDao.CreateOrUpdate(student);
 
             return View("Details", student);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            StudentDAO studentDAO = new StudentDAO();
+            studentDAO.Delete(id);
+
+            return View("Index", studentDAO.FetchAll());
         }
     }
 }
