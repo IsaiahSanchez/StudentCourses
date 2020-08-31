@@ -271,6 +271,7 @@
     <Content Include="Views\Students\Index.cshtml" />
     <Content Include="Views\Students\Details.cshtml" />
     <Content Include="Views\Students\StudentCreateForm.cshtml" />
+    <Content Include="Views\Students\SearchForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

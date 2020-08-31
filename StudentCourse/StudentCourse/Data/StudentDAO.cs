@@ -1,4 +1,5 @@
 ﻿using StudentCourse.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -123,6 +124,41 @@ namespace StudentCourse.Data
                 
             }
 
+        }
+
+        public List<StudentModel> SearchForName(string searchPhrase)
+        {
+            List<StudentModel> returnList = new List<StudentModel>();
+
+            //access database
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                string sqlQuery = "SELECT * from dbo.Students WHERE FirstName LIKE @searchPhrase";
+
+                SqlCommand command = new SqlCommand(sqlQuery, connection);
+
+                command.Parameters.Add("@searchPhrase", System.Data.SqlDbType.NVarChar).Value = "%" + searchPhrase + "%";
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        //create student and fill information
+                        StudentModel student = new StudentModel();
+                        student.ID = reader.GetInt32(0);
+                        student.FirstName = reader.GetString(1);
+                        student.LastName = reader.GetString(2);
+
+                        returnList.Add(student);
+                    }
+                }
+            }
+
+            return returnList;
         }
     }
 }

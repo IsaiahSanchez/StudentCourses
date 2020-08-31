@@ -60,5 +60,19 @@ namespace StudentCourse.Controllers
 
             return View("Index", studentDAO.FetchAll());
         }
+
+        public ActionResult SearchForm()
+        {
+            return View("SearchForm");
+        }
+
+        public ActionResult SearchForName(string searchPhrase)
+        {
+            StudentDAO studentDAO = new StudentDAO();
+
+            List<StudentModel> students = studentDAO.SearchForName(searchPhrase);
+
+            return View("Index", students);
+        }
     }
 }
