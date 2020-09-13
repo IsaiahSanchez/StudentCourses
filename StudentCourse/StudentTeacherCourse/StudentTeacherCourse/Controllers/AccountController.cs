@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using StudentTeacherCourse.DAO;
 using StudentTeacherCourse.Models;
 
 namespace StudentTeacherCourse.Controllers
@@ -153,15 +154,21 @@ namespace StudentTeacherCourse.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                //var blah = await ApplicationUser.FindById(user.Id);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    //do code to create a corrosponding student to the ID of the logged in user.
+                    StudentsDAO studentsDAO = new StudentsDAO();
+                    studentsDAO.createStudent(new StudentModel(user.Id, model.FirstName, model.LastName, int.Parse(model.YearsCompleted)));
+
 
                     return RedirectToAction("Index", "Home");
                 }

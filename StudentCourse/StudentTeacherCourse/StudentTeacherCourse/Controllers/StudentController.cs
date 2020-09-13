@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StudentTeacherCourse.DAO;
+using StudentTeacherCourse.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,7 +20,11 @@ namespace StudentTeacherCourse.Controllers
 
         public ActionResult Courses()
         {
-            return View();
+            CourseDAO courseDAO = new CourseDAO();
+            List<CourseModel> Courses = new List<CourseModel>();
+            Courses = courseDAO.FetchAll();
+
+            return View("StudentCourseView", Courses);
         }
     }
 }
