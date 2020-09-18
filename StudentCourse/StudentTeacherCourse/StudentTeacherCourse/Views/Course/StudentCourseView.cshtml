@@ -1,0 +1,64 @@
+﻿@model IEnumerable<StudentTeacherCourse.Models.CourseModel>
+
+@{
+    ViewBag.Title = "StudentCourseView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>StudentCourseView</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Desc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxNumberOfStudents)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfStudents)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ListOfStudents)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CourseId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Desc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaxNumberOfStudents)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfStudents)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ListOfStudents)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
