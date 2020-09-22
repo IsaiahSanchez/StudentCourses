@@ -47,7 +47,7 @@ namespace StudentTeacherCourse.DAO
             return returnList;
         }
 
-        public void addStudentToCourse(int StudentId, string CourseID)
+        public void addStudentToCourse(int StudentId, int CourseID)
         {
             CourseModel course = getCourse(CourseID);
             if (checkIfStudentIsInCourse(course, StudentId))
@@ -64,7 +64,7 @@ namespace StudentTeacherCourse.DAO
 
         }
 
-        public void removeStudentFromCourse(int StudentId, string CourseID)
+        public void removeStudentFromCourse(int StudentId, int CourseID)
         {
             CourseModel course = getCourse(CourseID);
             if (checkIfStudentIsInCourse(course, StudentId))
@@ -82,7 +82,7 @@ namespace StudentTeacherCourse.DAO
             
         }
 
-        public CourseModel getCourse(string CourseId)
+        public CourseModel getCourse(int CourseId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

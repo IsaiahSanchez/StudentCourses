@@ -25,13 +25,29 @@ namespace StudentTeacherCourse.Controllers
             List<CourseModel> Courses = new List<CourseModel>();
             Courses = courseDAO.FetchAll();
 
-            //string userId = User.Identity.GetUserId();
 
+            //checkIfStudentIsEnrolled(Courses);
+            StudentCourseModel model = new StudentCourseModel(Courses, getCourseIdMatches(courseDAO, Courses));
+            return View("StudentCourseView", model);
+        }
+
+        public ActionResult Details(int id)
+        {
+            CourseDAO courseDAO = new CourseDAO();
+            List<CourseModel> Courses = new List<CourseModel>();
+            Courses.Add(courseDAO.getCourse(id));
+
+            StudentCourseModel model = new StudentCourseModel(Courses, getCourseIdMatches(courseDAO, Courses));
+            return View("CourseDetails",model);
+        }
+
+        public List<int> getCourseIdMatches(CourseDAO courseDAO, List<CourseModel> courses)
+        {
             StudentsDAO studentsDAO = new StudentsDAO();
             StudentModel student = studentsDAO.getStudentByUserId(User.Identity.GetUserId());
 
             List<int> courseIds = new List<int>();
-            foreach (CourseModel course in Courses)
+            foreach (CourseModel course in courses)
             {
                 if (courseDAO.checkIfStudentIsInCourse(course, student.Id))
                 {
@@ -39,11 +55,8 @@ namespace StudentTeacherCourse.Controllers
                 }
             }
 
-            //checkIfStudentIsEnrolled(Courses);
-            StudentCourseModel model = new StudentCourseModel(Courses, courseIds);
-            return View("StudentCourseView", model);
+            return courseIds;
         }
-
         
     }
 }

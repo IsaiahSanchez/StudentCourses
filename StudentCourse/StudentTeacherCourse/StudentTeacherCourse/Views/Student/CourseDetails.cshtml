@@ -1,0 +1,57 @@
+﻿@model StudentTeacherCourse.Models.StudentCourseModel
+
+@{
+    ViewBag.Title = "CourseDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CourseDetails</h2>
+
+<div>
+    <h4>CourseModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.courses[0].Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.courses[0].Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.courses[0].Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.courses[0].Desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.courses[0].MaxNumberOfStudents)
+            /
+            @Html.DisplayNameFor(model => model.courses[0].NumberOfStudents)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.courses[0].MaxNumberOfStudents)
+            /
+            @Html.DisplayFor(model => model.courses[0].NumberOfStudents)
+        </dd>
+    </dl>
+
+</div>
+<p>
+    @if (Model.EnrolledCourseIds.Count > 0)
+    {
+        if (Model.EnrolledCourseIds[0] == Model.courses[0].CourseId)
+        {
+            @Html.ActionLink("Unenroll", "Unenroll", new { /* id=item.PrimaryKey */ });
+        }
+        else
+        {
+            @Html.ActionLink("Enroll", "Enroll", new { /* id=item.PrimaryKey */ });
+        }
+    }
+    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+</p>
