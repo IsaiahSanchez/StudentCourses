@@ -53,18 +53,18 @@
 
                 if (isEnrolled)
                 {
-                    @Html.ActionLink("Unenroll", "Unenroll", new { /* id=item.PrimaryKey */ });
+                    @Html.ActionLink("Unenroll", "Unenroll", new { id = item.CourseId });
                 }
                 else
                 {
-                    @Html.ActionLink("Enroll", "Enroll", new { /* id=item.PrimaryKey */ });
+                    @Html.ActionLink("Enroll", "Enroll", new { id = item.CourseId });
                 }
             }
             else
             {
-                @Html.ActionLink("Enroll", "Enroll", new { /* id=item.PrimaryKey */ });
+                @Html.ActionLink("Enroll", "Enroll", new { id = item.CourseId });
             }
-            @Html.ActionLink("Details", "Details", new { id=item.CourseId}) |
+            @Html.ActionLink("Details", "Details", new { id = item.CourseId}) |
         </td>
     </tr>
 }

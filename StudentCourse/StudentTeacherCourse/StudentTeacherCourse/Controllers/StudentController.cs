@@ -41,6 +41,36 @@ namespace StudentTeacherCourse.Controllers
             return View("CourseDetails",model);
         }
 
+        public ActionResult Enroll(int id)
+        {
+            CourseDAO courseDAO = new CourseDAO();
+            StudentsDAO studentsDAO = new StudentsDAO();
+
+            StudentModel student = studentsDAO.getStudentByUserId(User.Identity.GetUserId());
+            courseDAO.addStudentToCourse(student.Id, id);
+
+
+            List<CourseModel> Courses = new List<CourseModel>();
+            Courses = courseDAO.FetchAll();
+            StudentCourseModel model = new StudentCourseModel(Courses, getCourseIdMatches(courseDAO, Courses));
+
+            return View("StudentCourseView", model);
+        }
+
+        public ActionResult Unenroll(int id)
+        {
+            CourseDAO courseDAO = new CourseDAO();
+            StudentsDAO studentsDAO = new StudentsDAO();
+
+            StudentModel student = studentsDAO.getStudentByUserId(User.Identity.GetUserId());
+            courseDAO.removeStudentFromCourse(student.Id, id);
+
+            List<CourseModel> Courses = new List<CourseModel>();
+            Courses = courseDAO.FetchAll();
+            StudentCourseModel model = new StudentCourseModel(Courses, getCourseIdMatches(courseDAO, Courses));
+            return View("StudentCourseView", model);
+        }
+
         public List<int> getCourseIdMatches(CourseDAO courseDAO, List<CourseModel> courses)
         {
             StudentsDAO studentsDAO = new StudentsDAO();

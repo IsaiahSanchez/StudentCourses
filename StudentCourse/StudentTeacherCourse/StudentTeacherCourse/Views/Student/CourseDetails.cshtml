@@ -28,15 +28,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.courses[0].MaxNumberOfStudents)
-            /
             @Html.DisplayNameFor(model => model.courses[0].NumberOfStudents)
+            /
+            @Html.DisplayNameFor(model => model.courses[0].MaxNumberOfStudents)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.courses[0].MaxNumberOfStudents)
-            /
             @Html.DisplayFor(model => model.courses[0].NumberOfStudents)
+            /
+            @Html.DisplayFor(model => model.courses[0].MaxNumberOfStudents)
         </dd>
     </dl>
 
@@ -46,12 +46,15 @@
     {
         if (Model.EnrolledCourseIds[0] == Model.courses[0].CourseId)
         {
-            @Html.ActionLink("Unenroll", "Unenroll", new { /* id=item.PrimaryKey */ });
+            @Html.ActionLink("Unenroll", "Unenroll", new {id = Model.courses[0].CourseId });
         }
         else
         {
-            @Html.ActionLink("Enroll", "Enroll", new { /* id=item.PrimaryKey */ });
+            @Html.ActionLink("Enroll", "Enroll", new { id = Model.courses[0].CourseId });
         }
     }
-    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+    else
+    {
+        @Html.ActionLink("Enroll", "Enroll", new { id = Model.courses[0].CourseId });
+    }
 </p>

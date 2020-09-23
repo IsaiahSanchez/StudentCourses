@@ -53,13 +53,17 @@ namespace StudentTeacherCourse.DAO
             if (checkIfStudentIsInCourse(course, StudentId))
             {
                 //not supposed to already be part of it so fail
+                int id = 0;
             }
             else
             {
                 //add student
-                List<int> studentIds = OpenStudentList(course);
-                studentIds.Add(StudentId);
-                SaveStudentList(course, studentIds);
+                if (course.NumberOfStudents < course.MaxNumberOfStudents)
+                {
+                    List<int> studentIds = OpenStudentList(course);
+                    studentIds.Add(StudentId);
+                    SaveStudentList(course, studentIds);
+                }
             }
 
         }
@@ -162,9 +166,26 @@ namespace StudentTeacherCourse.DAO
             }
 
             course.ListOfStudents = finalString;
-            course.NumberOfStudents = StudentIds.Count + 1;
+            course.NumberOfStudents = StudentIds.Count;
             //save to database
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
 
+                string sqlQuery = "UPDATE dbo.Courses SET Name = @Name, Description = @Desc, MaxNumberOfStudents = @MaxStud, NumberOfStudents = @NumStud, ListOfStudents = @ListOfStud WHERE Id = @Id";
+
+                SqlCommand command = new SqlCommand(sqlQuery, connection);
+
+                command.Parameters.Add("@Id", System.Data.SqlDbType.VarChar, 1000).Value = course.CourseId;
+                command.Parameters.Add("@Name", System.Data.SqlDbType.VarChar, 1000).Value = course.Name;
+                command.Parameters.Add("@Desc", System.Data.SqlDbType.VarChar, 1000).Value = course.Desc;
+                command.Parameters.Add("@MaxStud", System.Data.SqlDbType.Int).Value = course.MaxNumberOfStudents;
+                command.Parameters.Add("@NumStud", System.Data.SqlDbType.Int).Value = course.NumberOfStudents;
+                command.Parameters.Add("@ListOfStud", System.Data.SqlDbType.VarChar, 1000).Value = course.ListOfStudents;
+
+
+                connection.Open();
+                int newID = command.ExecuteNonQuery();
+            }
 
         }
 
