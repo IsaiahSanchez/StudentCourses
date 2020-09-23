@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace StudentTeacherCourse.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "StudentRole")]
     public class StudentController : Controller
     {
         // GET: Student
