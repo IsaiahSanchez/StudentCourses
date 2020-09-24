@@ -18,6 +18,7 @@ namespace StudentTeacherCourse.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private string InstructorCode = "1234";
 
         public AccountController()
         {
@@ -165,9 +166,37 @@ namespace StudentTeacherCourse.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    //do code to create a corrosponding student to the ID of the logged in user.
-                    StudentsDAO studentsDAO = new StudentsDAO();
-                    studentsDAO.createStudent(new StudentModel(user.Id, model.FirstName, model.LastName, int.Parse(model.YearsCompleted)));
+                    //check if an instructor is trying to be created.
+                    UserRolesDAO userRolesDAO = new UserRolesDAO();
+                    if (model.InstructorCode != null)
+                    {
+                        if (model.InstructorCode == InstructorCode)
+                        {
+                            //set the current user group to teacher group
+                            userRolesDAO.SetUserRole(user.Id, true);
+
+                            //do code to create a teacher to the id of the logged user.
+                        }
+                        else
+                        {
+                            //set the current user group to student group
+                            userRolesDAO.SetUserRole(user.Id, false);
+
+                            //do code to create a corrosponding student to the ID of the logged in user.
+                            StudentsDAO studentsDAO = new StudentsDAO();
+                            studentsDAO.createStudent(new StudentModel(user.Id, model.FirstName, model.LastName, int.Parse(model.YearsCompleted)));
+                        }
+                    }
+                    else
+                    {
+                        //set the current user group to student group
+                        userRolesDAO.SetUserRole(user.Id, false);
+
+                        //do code to create a corrosponding student to the ID of the logged in user.
+                        StudentsDAO studentsDAO = new StudentsDAO();
+                        studentsDAO.createStudent(new StudentModel(user.Id, model.FirstName, model.LastName, int.Parse(model.YearsCompleted)));
+                    }
+                    
 
 
                     return RedirectToAction("Index", "Home");

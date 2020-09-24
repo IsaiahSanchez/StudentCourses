@@ -10,15 +10,17 @@ using System.Web.Mvc;
 
 namespace StudentTeacherCourse.Controllers
 {
-    [Authorize (Roles = "StudentRole")]
+    [Authorize(Roles = "StudentRole")]
     public class StudentController : Controller
     {
+        
         // GET: Student
         public ActionResult Index()
         {
             return View();
         }
 
+        
         public ActionResult Courses()
         {
             CourseDAO courseDAO = new CourseDAO();
