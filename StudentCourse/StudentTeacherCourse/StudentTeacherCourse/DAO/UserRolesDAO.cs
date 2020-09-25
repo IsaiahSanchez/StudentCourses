@@ -12,9 +12,11 @@ namespace StudentTeacherCourse.DAO
 
         public void SetUserRole(string Id, bool shouldBeInstructor)
         {
+
             //access database
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                
 
                 string sqlQuery = "INSERT INTO dbo.AspNetUserRoles Values(@Id, @RoleId)";
                 string roleId = "";
