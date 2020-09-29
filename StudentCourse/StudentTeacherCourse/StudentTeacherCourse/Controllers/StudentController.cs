@@ -10,17 +10,19 @@ using System.Web.Mvc;
 
 namespace StudentTeacherCourse.Controllers
 {
-    [Authorize(Roles = "StudentRole")]
+    
     public class StudentController : Controller
     {
-        
+
         // GET: Student
+        [Authorize(Roles = "StudentRole")]
         public ActionResult Index()
         {
             return View();
         }
 
-        
+
+        [Authorize(Roles = "StudentRole")]
         public ActionResult Courses()
         {
             CourseDAO courseDAO = new CourseDAO();
@@ -33,6 +35,7 @@ namespace StudentTeacherCourse.Controllers
             return View("StudentCourseView", model);
         }
 
+        [Authorize(Roles = "StudentRole")]
         public ActionResult Details(int id)
         {
             CourseDAO courseDAO = new CourseDAO();
@@ -43,6 +46,7 @@ namespace StudentTeacherCourse.Controllers
             return View("CourseDetails",model);
         }
 
+        [Authorize(Roles = "StudentRole")]
         public ActionResult Enroll(int id)
         {
             CourseDAO courseDAO = new CourseDAO();
@@ -59,6 +63,7 @@ namespace StudentTeacherCourse.Controllers
             return View("StudentCourseView", model);
         }
 
+        [Authorize(Roles = "StudentRole")]
         public ActionResult Unenroll(int id)
         {
             CourseDAO courseDAO = new CourseDAO();
@@ -73,6 +78,7 @@ namespace StudentTeacherCourse.Controllers
             return View("StudentCourseView", model);
         }
 
+        [Authorize(Roles = "StudentRole")]
         public List<int> getCourseIdMatches(CourseDAO courseDAO, List<CourseModel> courses)
         {
             StudentsDAO studentsDAO = new StudentsDAO();
@@ -89,6 +95,14 @@ namespace StudentTeacherCourse.Controllers
 
             return courseIds;
         }
-        
+
+        [Authorize (Roles = "TeacherRole")]
+        public ActionResult ViewSingleStudent(int studentId)
+        {
+            StudentsDAO studentsDAO = new StudentsDAO();
+
+            return View("ViewSingleStudent", studentsDAO.getStudentByStudentId(studentId));
+        }
+
     }
 }

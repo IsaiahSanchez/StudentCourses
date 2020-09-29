@@ -33,6 +33,36 @@ namespace StudentTeacherCourse.DAO
             }
         }
 
+        public StudentModel getStudentByStudentId(int studentId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                string sqlQuery = "SELECT * from [dbo].[Students] WHERE Id = @ID";
+
+                SqlCommand command = new SqlCommand(sqlQuery, connection);
+
+                command.Parameters.Add("@ID", System.Data.SqlDbType.NVarChar).Value = studentId;
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+
+                StudentModel student = new StudentModel("", "", "", 0);
+                if (reader.HasRows)
+                {
+                    //create student and fill information
+                    reader.Read();
+                    student.Id = reader.GetInt32(0);
+                    student.FirstName = reader.GetString(2);
+                    student.LastName = reader.GetString(3);
+                    student.CollegeYearsCompleted = reader.GetInt32(4);
+
+                }
+                return student;
+            }
+        }
+
         public StudentModel getStudentByUserId(string userId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

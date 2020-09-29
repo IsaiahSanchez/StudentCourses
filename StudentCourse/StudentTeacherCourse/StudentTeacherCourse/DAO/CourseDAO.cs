@@ -31,7 +31,7 @@ namespace StudentTeacherCourse.DAO
                     while (reader.Read())
                     {
                         //create student and fill information
-                        CourseModel course = new CourseModel();
+                        CourseModel course = new CourseModel("","",0);
                         course.CourseId = reader.GetInt32(0);
                         course.Name = reader.GetString(1);
                         course.Desc = reader.GetString(2);
@@ -45,6 +45,56 @@ namespace StudentTeacherCourse.DAO
             }
 
             return returnList;
+        }
+
+        public void CreateCourse(CourseModel course)
+        {
+            if (course == null)
+            {
+
+            }
+            if (course.NumberOfStudents == null)
+            {
+                course.NumberOfStudents = 0;
+            }
+            if (course.ListOfStudents == null)
+            {
+                course.ListOfStudents = "";
+            }
+                //access database
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+
+                    string sqlQuery = "INSERT INTO dbo.Courses Values(@Name, @Desc, @MaxStud, @NumStud, @ListOfStud)";
+
+                    SqlCommand command = new SqlCommand(sqlQuery, connection);
+
+                    command.Parameters.Add("@Name", System.Data.SqlDbType.VarChar, 1000).Value = course.Name;
+                    command.Parameters.Add("@Desc", System.Data.SqlDbType.VarChar, 1000).Value = course.Desc;
+                    command.Parameters.Add("@MaxStud", System.Data.SqlDbType.Int).Value = course.MaxNumberOfStudents;
+                    command.Parameters.Add("@NumStud", System.Data.SqlDbType.Int).Value = course.NumberOfStudents;
+                    command.Parameters.Add("@ListOfStud", System.Data.SqlDbType.VarChar, 1000).Value = course.ListOfStudents;
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+               }
+            
+        }
+
+        public void DeleteCourse(int Id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                string sqlQuery = "DELETE FROM dbo.Courses WHERE Id = @Id ";
+
+                SqlCommand command = new SqlCommand(sqlQuery, connection);
+
+                command.Parameters.Add("@Id", System.Data.SqlDbType.VarChar, 1000).Value = Id;
+                connection.Open();
+                int newID = command.ExecuteNonQuery();
+
+            }
         }
 
         public void addStudentToCourse(int StudentId, int CourseID)
@@ -102,7 +152,7 @@ namespace StudentTeacherCourse.DAO
 
                 if (reader.HasRows)
                 {
-                    CourseModel course = new CourseModel();
+                    CourseModel course = new CourseModel("","",0);
                     reader.Read();
                     course.CourseId = reader.GetInt32(0);
                     course.Name = reader.GetString(1);
@@ -114,7 +164,7 @@ namespace StudentTeacherCourse.DAO
                 }
                 else
                 {
-                    CourseModel course = new CourseModel();
+                    CourseModel course = new CourseModel("","",0);
                     course.Name = "Failed";
                     course.Desc = "Search Failed. Couldn't find one with that id.";
                     return course;
@@ -126,7 +176,7 @@ namespace StudentTeacherCourse.DAO
         }
 
 
-        private List<int> OpenStudentList(CourseModel course)
+        public List<int> OpenStudentList(CourseModel course)
         {
             List<string> UnConvertedList = new List<string>();
             char[] array = course.ListOfStudents.ToCharArray();

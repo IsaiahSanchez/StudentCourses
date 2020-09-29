@@ -1,0 +1,49 @@
+﻿@model StudentTeacherCourse.Models.SingleCourseViewModel
+
+@{
+    ViewBag.Title = "ViewSingleCourseView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Html.DisplayFor(model => model.course.Name)</h1>
+<h2>@Html.DisplayFor(model => model.course.Desc)</h2>
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.students[0].FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.students[0].LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.students[0].CollegeYearsCompleted)
+        </th>
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.students)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CollegeYearsCompleted)
+            </td>
+            <td>
+                @Html.ActionLink("Remove From Course", "RemoveStudentFromCourse", new { courseId = Model.course.CourseId, studentId = item.Id })
+                |
+                @Html.ActionLink("View Individual", "ViewSingleStudent", "Student", new {studentId = item.Id },null)
+            </td>
+        </tr>
+    }
+
+</table>
+

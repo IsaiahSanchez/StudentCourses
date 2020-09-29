@@ -19,5 +19,18 @@ namespace StudentTeacherCourse.Models
 
         public string ListOfStudents { get; set; }
 
+        public CourseModel()
+        {
+
+        }
+
+        public CourseModel(string name, string desc, int maxNumberOfStudents)
+        {
+            Name = name;
+            Desc = desc;
+            MaxNumberOfStudents = maxNumberOfStudents;
+            NumberOfStudents = 0;
+            ListOfStudents = "";
+        }
     }
 }
