@@ -81,6 +81,7 @@ namespace StudentTeacherCourse.Models
         public string YearsCompleted { get; set; }
 
         [StringLength(100, ErrorMessage = "The {0} must be at least {1} character long.", MinimumLength = 1)]
+        [DataType(DataType.Password)]
         [Display(Name = "Instructor Code (Leave blank if student)")]
         public string InstructorCode { get; set; }
 
