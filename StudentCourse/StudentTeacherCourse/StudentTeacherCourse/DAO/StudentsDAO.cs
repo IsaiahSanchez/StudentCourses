@@ -9,7 +9,7 @@ namespace StudentTeacherCourse.DAO
 {
     public class StudentsDAO
     {
-        private string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=aspnet-StudentTeacherCourse-20200901043005;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private string connectionString = @"Data Source=198.71.225.113;Initial Catalog=StudentCourseDb;Integrated Security=False;User ID=User;Password=ffffff1!;Connect Timeout=15;Encrypt=False;Packet Size=4096;";
 
 
         //create
